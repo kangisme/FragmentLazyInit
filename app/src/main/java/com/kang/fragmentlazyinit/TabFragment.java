@@ -2,12 +2,14 @@ package com.kang.fragmentlazyinit;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
@@ -15,15 +17,19 @@ import com.orhanobut.logger.Logger;
 /**
  * @author created by kangren on 2018/7/6 15:42
  */
-public class TabFragment extends Fragment {
+public class TabFragment extends LazyInitFragment {
 
     private static final String DATA = "data";
 
     private static final String INDEX = "index";
 
+    private View rootView;
+
     private Context mContext;
 
     private TextView mTextView;
+
+    private ProgressBar mProgressBar;
 
     private int mIndex;
 
@@ -62,6 +68,21 @@ public class TabFragment extends Fragment {
     }
 
     @Override
+    protected void onFirstUserVisible() {
+        initView();
+    }
+
+    @Override
+    protected void onUserVisible() {
+
+    }
+
+    @Override
+    protected void onPrepared() {
+
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Logger.d(mIndex + "onAttach");
@@ -94,18 +115,28 @@ public class TabFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_tab, container, false);
-        initView(rootView);
+        rootView = inflater.inflate(R.layout.fragment_tab, container, false);
+//        initView(rootView);
         Logger.d(mIndex + "onCreateView");
         return rootView;
     }
 
-    private void initView(View rootView) {
+
+    private void initView() {
         mTextView = rootView.findViewById(R.id.text);
-        Bundle data = getArguments();
-        if (data != null) {
-            String text = data.getString(DATA);
-            mTextView.setText(text);
-        }
+        mProgressBar = rootView.findViewById(R.id.process_bar);
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Bundle data = getArguments();
+                if (data != null) {
+                    String text = data.getString(DATA);
+                    mTextView.setText(text);
+                    mProgressBar.setVisibility(View.GONE);
+                    mTextView.setVisibility(View.VISIBLE);
+                }
+            }
+        }, 2000);
+
     }
 }
