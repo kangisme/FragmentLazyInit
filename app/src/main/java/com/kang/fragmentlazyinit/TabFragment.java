@@ -1,5 +1,8 @@
 package com.kang.fragmentlazyinit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +34,7 @@ public class TabFragment extends LazyInitFragment {
 
     private ProgressBar mProgressBar;
 
+    private List<TextView> mTextViews;
     private int mIndex;
 
     public static TabFragment newInstance(String data, int i) {
@@ -58,6 +62,13 @@ public class TabFragment extends LazyInitFragment {
         super.onCreate(savedInstanceState);
         this.mContext = getActivity();
         Logger.d(mIndex + "onCreate");
+        if (mTextViews == null) {
+            mTextViews = new ArrayList<>();
+            for (int i = 0; i < 1000; i++) {
+                TextView textView = new TextView(getActivity());
+                mTextViews.add(textView);
+            }
+        }
     }
 
 
@@ -104,6 +115,8 @@ public class TabFragment extends LazyInitFragment {
     public void onDestroy() {
         super.onDestroy();
         Logger.d(mIndex + "onDestroy");
+        mTextViews.clear();
+        mTextViews = null;
     }
 
     @Override

@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 /**
+ * tab页面可见时才开始加载数据，支持{@link android.support.v4.app.FragmentPagerAdapter}
+ * 和{@link android.support.v4.app.FragmentStatePagerAdapter}
  * @author created by kangren on 2018/7/10 14:39
  */
 public abstract class LazyInitFragment extends Fragment {
