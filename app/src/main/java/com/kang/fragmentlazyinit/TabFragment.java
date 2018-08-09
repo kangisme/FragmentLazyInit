@@ -79,18 +79,8 @@ public class TabFragment extends LazyInitFragment {
     }
 
     @Override
-    protected void onFirstUserVisible() {
+    protected void loadData() {
         initView();
-    }
-
-    @Override
-    protected void onUserVisible() {
-
-    }
-
-    @Override
-    protected void onPrepared() {
-
     }
 
     @Override
