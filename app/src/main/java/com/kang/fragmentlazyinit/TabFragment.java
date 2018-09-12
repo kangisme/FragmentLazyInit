@@ -96,6 +96,24 @@ public class TabFragment extends LazyInitFragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        Logger.d(mIndex + "onPause");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Logger.d(mIndex + "onStart");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Logger.d(mIndex + "onStop");
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         Logger.d(mIndex + "onDestroyView");
